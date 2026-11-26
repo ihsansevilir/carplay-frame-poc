@@ -53,7 +53,7 @@ final class PlayerEngine {
             return .success
         }
 
-        var info: [String: Any] = [
+        let info: [String: Any] = [
             MPMediaItemPropertyTitle: "Frame POC",
             MPMediaItemPropertyArtist: "POC",
             MPNowPlayingInfoPropertyPlaybackRate: 1.0,
@@ -96,8 +96,8 @@ final class PlayerEngine {
     private func startPump() {
         stopPump()
         let timer = DispatchSource.makeTimerSource(queue: pumpQueue)
-        timer.scheduleRepeating(deadline: .now() + .milliseconds(pumpIntervalMs),
-                                interval: .milliseconds(pumpIntervalMs))
+        timer.schedule(deadline: .now() + .milliseconds(pumpIntervalMs),
+                        repeating: .milliseconds(pumpIntervalMs))
         timer.setEventHandler { [weak self] in self?.pumpOnce() }
         timer.resume()
         pumpTimer = timer
@@ -171,13 +171,18 @@ final class PlayerEngine {
 
     func attachCarPlay(interfaceController: CPInterfaceController) {
         self.interfaceController = interfaceController
-        let testItem = CPListItem(text: "Apple Test Stream", detailText: "ses + video örnek HLS") { [weak self] item, completion in
+        let testItem = CPListItem(text: "Apple Test Stream",
+                                  detailText: "ses + video örnek HLS",
+                                  image: nil,
+                                  accessoryImage: nil,
+                                  accessoryType: .none,
+                                  handler: { [weak self] item, completion in
             guard let self = self else { completion(); return }
             let url = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8")!
             self.play(url: url)
             item.detailText = "çalıyor…"
             completion()
-        }
+        })
         let list = CPListTemplate(title: "Frame POC", sections: [CPListSection(items: [testItem])])
         interfaceController.setRootTemplate(list, animated: false, completion: nil)
     }
