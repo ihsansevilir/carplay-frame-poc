@@ -1,0 +1,23 @@
+# Codemagic derleme hattı: kaynaklardan .xcodeproj üret, imzala, TestFlight'a yükle.
+# Gerekli environment secret'ları (Codemagic arayüzünden Apple Service bağlantısı olarak eklenir):
+#   APP_STORE_CONNECT_ISSUER_ID, APP_STORE_CONNECT_KEY_IDENTIFIER, APP_STORE_CONNECT_PRIVATE_KEY (.p8 içeriği)
+# Not: yaml sürüm farkları olabilir; ilk build'de hata çıkarsa log'u getir, düzeltelim.
+workflows:
+  frame-poc:
+    name: Frame POC (TestFlight)
+    max_build_duration: 20
+    environment:
+      xcode: latest
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.framepoc.app
+    scripts:
+      - name: Install XcodeGen
+        script: brew install xcodegen
+      - name: Generate Xcode project
+        script: xcodegen generate
+      - name: Build IPA
+        script: xcode-project build-ipa --project FramePOC.xcodeproj --scheme FramePOC
+    publishing:
+      app_store_connect:
+        submit_to_testflight: true

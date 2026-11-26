@@ -1,0 +1,25 @@
+<!-- Info.plist içine UIApplicationSceneManifest anahtarını bu blokla değiştir/ekle -->
+<key>UIApplicationSceneManifest</key>
+<dict>
+    <key>UIApplicationSupportsMultipleScenes</key>
+    <true/>
+    <key>UISceneConfigurations</key>
+    <dict>
+        <key>UIWindowSceneSessionRoleApplication</key>
+        <array>
+            <dict>
+                <key>UISceneDelegateClassName</key>
+                <string>$(PRODUCT_MODULE_NAME).PhoneSceneDelegate</string>
+            </dict>
+        </array>
+        <key>CPTemplateApplicationSceneSessionRoleApplication</key>
+        <array>
+            <dict>
+                <key>UISceneClassName</key>
+                <string>CPTemplateApplicationScene</string>
+                <key>UISceneDelegateClassName</key>
+                <string>$(PRODUCT_MODULE_NAME).CarPlaySceneDelegate</string>
+            </dict>
+        </array>
+    </dict>
+</dict>
