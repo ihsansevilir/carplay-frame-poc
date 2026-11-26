@@ -171,18 +171,13 @@ final class PlayerEngine {
 
     func attachCarPlay(interfaceController: CPInterfaceController) {
         self.interfaceController = interfaceController
-        let testItem = CPListItem(text: "Apple Test Stream",
-                                  detailText: "ses + video örnek HLS",
-                                  image: nil,
-                                  accessoryImage: nil,
-                                  accessoryType: .none,
-                                  handler: { [weak self] item, completion in
+        let testItem = CPListItem(text: "Apple Test Stream", detailText: "ses + video örnek HLS")
+        testItem.handler = { [weak self] _, completion in
             guard let self = self else { completion(); return }
             let url = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8")!
             self.play(url: url)
-            item.detailText = "çalıyor…"
             completion()
-        })
+        }
         let list = CPListTemplate(title: "Frame POC", sections: [CPListSection(items: [testItem])])
         interfaceController.setRootTemplate(list, animated: false, completion: nil)
     }
